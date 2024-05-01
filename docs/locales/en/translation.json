@@ -1,0 +1,62 @@
+{
+  "LOADING": "Loading...",
+  "BACK": "Back",
+
+  "home": {
+    "header": "Welcome",
+    "title": "Home",
+    "library": {
+      "title": "Library",
+      "menu": "Games",
+      "games": {
+        "title": "All games"
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "menu": "Settings",
+      "general": {
+        "menu": "General",
+        "title": "General Settings",
+        "lang": {
+          "title": "Language"
+        }
+      },
+      "audio": {
+        "menu": "Audio",
+        "title": "Audio Settings",
+        "master": {
+          "title": "Master Volume",
+          "enable": "Enable Sounds"
+        },
+        "game": {
+          "title": "Game Volume",
+          "enable": "Enbale Game Volume"
+        },
+        "interface": {
+          "title": "Interface Volume",
+          "enable": "Enable Interface Volume"
+        },
+        "music": {
+          "title": "Music Volume",
+          "enable": "Enable Music Volume"
+        }
+      },
+      "display": {
+        "menu": "Display",
+        "title": "Display Settings",
+        "brightness": {
+          "title": "Brightness"
+        },
+        "contrast": {
+          "title": "Contrast"
+        }
+      }
+    },
+    "credits": {
+      "title": "Credits",
+      "menu": "Credits",
+      "content": "Credits content"
+    }
+  }
+}
