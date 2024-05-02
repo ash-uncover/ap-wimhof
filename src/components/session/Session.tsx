@@ -3,6 +3,9 @@ import { View } from "@adobe/react-spectrum";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { SessionSelectors } from "store/session/session.selectors";
+import { SessionPreshow } from "./SessionPreshow";
+
+import "./Session.css";
 
 type SessionState =
   | "WAITING"
@@ -24,18 +27,25 @@ type TimelineWaiting = TimelineBase & {
 };
 type TimelinePreshow = TimelineBase & {
   state: "PRESHOW";
+  round: number;
 };
 type TimelineInspire = TimelineBase & {
   state: "INSPIRE";
+  round: number;
+  breath: number;
 };
 type TimelineExpire = TimelineBase & {
   state: "EXPIRE";
+  round: number;
+  breath: number;
 };
 type TimelineHold = TimelineBase & {
   state: "HOLD";
+  round: number;
 };
 type TimelineBreak = TimelineBase & {
   state: "BREAK";
+  round: number;
 };
 type TimelineEnd = TimelineBase & {
   state: "END";
@@ -86,6 +96,7 @@ export const Session = () => {
         start: currentTime,
         end: currentTime + 3000,
         state: "PRESHOW",
+        round: roundIndex + 1,
       });
       currentTime += 3000;
       for (let i = 0; i < round.cycles - 1; i++) {
@@ -94,6 +105,8 @@ export const Session = () => {
           start: currentTime,
           end: currentTime + round.inspire * 1000,
           state: "INSPIRE",
+          round: roundIndex + 1,
+          breath: i + 1,
         });
         currentTime += round.inspire * 1000;
         newTimeline.push({
@@ -101,6 +114,8 @@ export const Session = () => {
           start: currentTime,
           end: currentTime + round.expire * 1000,
           state: "EXPIRE",
+          round: roundIndex + 1,
+          breath: i + 1,
         });
         currentTime += round.expire * 1000;
       }
@@ -109,6 +124,8 @@ export const Session = () => {
         start: currentTime,
         end: currentTime + round.inspire * 1000,
         state: "INSPIRE",
+        round: roundIndex + 1,
+        breath: round.cycles,
       });
       currentTime += round.inspire * 1000;
       newTimeline.push({
@@ -116,6 +133,7 @@ export const Session = () => {
         start: currentTime,
         end: currentTime + round.hold * 1000,
         state: "HOLD",
+        round: roundIndex + 1,
       });
       currentTime += round.hold * 1000;
       if (roundIndex < rounds.length - 1) {
@@ -124,6 +142,7 @@ export const Session = () => {
           start: currentTime,
           end: currentTime + round.break * 1000,
           state: "BREAK",
+          round: roundIndex + 2,
         });
         currentTime += round.break * 1000;
       }
@@ -131,7 +150,7 @@ export const Session = () => {
     newTimeline.push({
       id: id++,
       start: currentTime,
-      end: currentTime + 600000,
+      end: 8640000000000000,
       state: "END",
     });
     setTimeline(newTimeline);
@@ -155,11 +174,30 @@ export const Session = () => {
 
   // Rendering //
 
+  function renderContent() {
+    switch (timelineEntry.state) {
+      case "PRESHOW":
+        return renderPreshow(timelineEntry);
+      default:
+        return (
+          <>
+            <div>{`Start: ${timelineEntry.start}`}</div>
+            <div>{`End: ${timelineEntry.end}`}</div>
+            <div>{`State: ${timelineEntry.state}`}</div>
+          </>
+        );
+    }
+  }
+
+  function renderPreshow(timelineEntry: TimelinePreshow) {
+    return (
+      <SessionPreshow end={timelineEntry.end} round={timelineEntry.round} />
+    );
+  }
+
   return (
-    <View backgroundColor="celery-600">
-      <div>{`Start: ${timelineEntry.start}`}</div>
-      <div>{`End: ${timelineEntry.end}`}</div>
-      <div>{`State: ${timelineEntry.state}`}</div>
+    <View backgroundColor="celery-600" width="100%">
+      <div className="session">{renderContent()}</div>
     </View>
   );
 };
